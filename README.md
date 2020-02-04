@@ -2,6 +2,8 @@
 
 ## Setup
 먼저 옥토프린트 소스를 git에서 다운받고, 파이썬 버전 2.x으로 virtualenv를 생성한다.
+참고) https://lhy0718.github.io/python/2020/01/26/Setup-virtualenv-with-a-specific-version-of-Python.html
+https://lhy0718.github.io/python/2020/01/26/Installing-the-Python-virtual-enviroment.html
 
 ### 일반 linux/mac 에서
 ```
