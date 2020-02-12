@@ -8,12 +8,15 @@ https://lhy0718.github.io/python/2020/01/26/Installing-the-Python-virtual-enviro
 
 ### 일반 linux/mac 에서
 ```
-$ source [옥토프린트 소스코드가 저장된 디렉토리]/venv/bin/activate
 $ git clone https://github.com/PeoplespaceBadPrint/badprint_plugin.git
+$ cd badprint_plugin
+$ source [옥토프린트 소스코드가 저장된 디렉토리]/venv/bin/activate
 (venv) $ octoprint dev plugin:install
 ```
 ### Octopi 에서
 ```
+$ git clone https://github.com/PeoplespaceBadPrint/badprint_plugin.git
+$ cd badprint_plugin
 $ source ~/oprint/bin/activate
 (oprint) $ octoprint dev plugin:install
 ```
