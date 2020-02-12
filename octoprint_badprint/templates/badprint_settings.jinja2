@@ -1,4 +1,56 @@
 <form class="form-horizontal">
+    <h3>{{_('Badprint detection')}}</h3>
+    <div class="control-group">
+        <label class="control-label">{{ _('Detection server URL') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.badprint.detect_server_url">
+        </div>
+    </div>
+    <h3>{{_('Email notification')}}</h3>
+    <h4>{{_('Sender')}}</h4>
+    <div class="control-group">
+        <label class="control-label">{{ _('Server') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.badprint.sender_mail_server">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Port') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.badprint.sender_mail_port">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Username') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.badprint.sender_mail_username">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Password') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.badprint.sender_mail_password">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('TLS enable') }}</label>
+        <div class="controls">
+            <input type="checkbox" class="input-block-level" data-bind="checked: settings.plugins.badprint.sender_use_tls">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('SSL enable') }}</label>
+        <div class="controls">
+            <input type="checkbox" class="input-block-level" data-bind="checked: settings.plugins.badprint.sender_use_ssl">
+        </div>
+    </div>
+    <h4>{{ _('Recipicent') }}</h4>
+    <div class="control-group">
+        <label class="control-label">{{ _('Email address') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.badprint.recipicent_mail_address">
+        </div>
+    </div>
     <div class="control-group">
         <span class="help-inline">
             (c) team1 2020
