@@ -22,7 +22,6 @@ class BadprintPlugin(octoprint.plugin.TemplatePlugin,
             sender_mail_port=465,
             sender_mail_useralias='',
             sender_mail_username='',
-            sender_mail_password='',
             sender_use_tls=False,
             sender_use_ssl=True,
 
@@ -35,14 +34,12 @@ class BadprintPlugin(octoprint.plugin.TemplatePlugin,
         ]
 
     def get_assets(self):
-        return dict(js=["js/badprint.js"], img=["img/test.jpeg"])
+        return dict(js=["js/badprint.js"])
 
     def get_api_commands(self):
         return dict(testmail=[])
 
     def on_api_command(self, command, data):
-        yagmail.register(self._settings.get(
-            ['sender_mail_username']), self._settings.get(['sender_mail_password']))
 
         if command == "testmail":
             subject = "Spaghetti has been detected! - Octoprint Plugin Badprint"

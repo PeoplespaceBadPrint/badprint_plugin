@@ -20,3 +20,11 @@ $ cd badprint_plugin
 $ source ~/oprint/bin/activate
 (oprint) $ octoprint dev plugin:install
 ```
+
+### 메일수신기능 이용하기
+keyring에 메일을 보낼 계정의 주소와 암호를 입력해야 합니다!
+아래는 Python3로 keyring에 암호를 저장하는 코드입니다.
+```
+>>> import keyring
+>>> keyring.set_password("yagmail", username, password)
+```
