@@ -22,6 +22,7 @@ class BadprintPlugin(octoprint.plugin.TemplatePlugin,
             sender_mail_port=465,
             sender_mail_useralias='',
             sender_mail_username='',
+            sender_mail_password='',
             sender_use_tls=False,
             sender_use_ssl=True,
 
@@ -59,7 +60,7 @@ class BadprintPlugin(octoprint.plugin.TemplatePlugin,
 		return flask.jsonify(foo="bar")
 
     def send_notification(self, subject="OctoPrint notification", body=[""]):
-
+        yagmail.register(self._settings.get(['sender_mail_username']), self._settings.get(['sender_mail_password']))
         mailer = yagmail.SMTP(user={self._settings.get(['sender_mail_username']): self._settings.get(['sender_mail_useralias'])}, host=self._settings.get(
             ['sender_mail_server']), port=self._settings.get(['sender_mail_port']), smtp_starttls=self._settings.get(['sender_use_tls']), smtp_ssl=self._settings.get(['sender_use_ssl']))
         emails = [email.strip()
