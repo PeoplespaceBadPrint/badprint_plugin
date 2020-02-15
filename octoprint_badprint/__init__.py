@@ -5,19 +5,29 @@ import octoprint.plugin
 import octoprint.settings
 
 import flask
+import requests
 import yagmail
 from email.utils import formatdate
+from time import sleep
 
 
-class BadprintPlugin(octoprint.plugin.TemplatePlugin,
+class BadprintPlugin(octoprint.plugin.StartupPlugin,
+                     octoprint.plugin.TemplatePlugin,
                      octoprint.plugin.SettingsPlugin,
                      octoprint.plugin.AssetPlugin,
                      octoprint.plugin.SimpleApiPlugin):
 
+    probability = 0
+
+    def on_after_startup(self, *args, **kwargs):
+        self.get_probability()
+
     def get_settings_defaults(self):
         return dict(
-            detect_server_url="http://localhost:3333",
+            detect_streaming_url="http://localhost:3333",
+            detect_probability_url="http://localhost:3333",
 
+            mail_enable=True,
             sender_mail_server='smtp.gmail.com',
             sender_mail_port=465,
             sender_mail_useralias='',
@@ -37,30 +47,23 @@ class BadprintPlugin(octoprint.plugin.TemplatePlugin,
     def get_assets(self):
         return dict(js=["js/badprint.js"])
 
-    def get_api_commands(self):
-        return dict(testmail=[])
-
-    def on_api_command(self, command, data):
-
-        if command == "testmail":
-            subject = "Spaghetti has been detected! - Octoprint Plugin Badprint"
-            body = [
-                "Spaghetti has been detected! Please check the octoprint page."]
-
-            try:
+    def get_probability(self):
+        subject = "Spaghetti has been detected! - Octoprint Plugin Badprint"
+        body = ["Spaghetti has been detected! Please check the octoprint page."]
+        while True:
+            res = requests.get(self._settings.get(['detect_probability_url']))
+            self.probability = res.json()['probability']
+            if self._settings.get(['mail_enable']):
                 self.send_notification(subject, body)
-            except Exception as e:
-                return flask.jsonify(success=False, msg=str(e))
-
-            return flask.jsonify(success=True)
-        else:
-            return flask.make_response("Unknown command", 400)
+                self._settings.set(['mail_enable'], False)
+            sleep(1)
 
     def on_api_get(self, request):
-		return flask.jsonify(foo="bar")
+        return flask.jsonify(probability=self.probability)
 
     def send_notification(self, subject="OctoPrint notification", body=[""]):
-        yagmail.register(self._settings.get(['sender_mail_username']), self._settings.get(['sender_mail_password']))
+        yagmail.register(self._settings.get(
+            ['sender_mail_username']), self._settings.get(['sender_mail_password']))
         mailer = yagmail.SMTP(user={self._settings.get(['sender_mail_username']): self._settings.get(['sender_mail_useralias'])}, host=self._settings.get(
             ['sender_mail_server']), port=self._settings.get(['sender_mail_port']), smtp_starttls=self._settings.get(['sender_use_tls']), smtp_ssl=self._settings.get(['sender_use_ssl']))
         emails = [email.strip()
