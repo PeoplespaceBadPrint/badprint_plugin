@@ -24,8 +24,8 @@ class BadprintPlugin(octoprint.plugin.StartupPlugin,
 
     def get_settings_defaults(self):
         return dict(
-            detect_streaming_url="http://localhost:3333",
-            detect_probability_url="http://localhost:3333",
+            detect_streaming_url="http://team1pi.local:8000/p?img=",
+            detect_probability_url="http://team1pi.local:8000/probability",
 
             mail_enable=True,
             sender_mail_server='smtp.gmail.com',
