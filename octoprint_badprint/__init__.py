@@ -9,6 +9,8 @@ import requests
 import yagmail
 from email.utils import formatdate
 from time import sleep
+import time
+import subprocess
 
 
 class BadprintPlugin(octoprint.plugin.StartupPlugin,
@@ -18,6 +20,11 @@ class BadprintPlugin(octoprint.plugin.StartupPlugin,
                      octoprint.plugin.SimpleApiPlugin):
 
     probability = 0
+
+    def on_startup(self, *args, **kwargs):
+        subprocess.call(['cd', '~/tf_lite/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi'])
+        subprocess.call(['source', 'tflite1-env/bin/activate'])
+        subprocess.call(['tflite1-env/bin/python', '__init__.py'])
 
     def on_after_startup(self, *args, **kwargs):
         self.get_probability()
@@ -51,7 +58,8 @@ class BadprintPlugin(octoprint.plugin.StartupPlugin,
         subject = "Spaghetti has been detected! - Octoprint Plugin Badprint"
         body = ["Spaghetti has been detected! Please check the octoprint page."]
         while True:
-            res = requests.get(self._settings.get(['detect_probability_url']))
+            res = requests.get(self._settings.get(
+                ['detect_probability_url']) + '?' + str(int(time.time())))
             self.probability = res.json()['probability']
             if self._settings.get(['mail_enable']):
                 self.send_notification(subject, body)
